@@ -179,7 +179,7 @@ class BCRScrapper:
             for region in topic.regions:
                 logging.info(f"Downloading branches for region {region.name}...")
                 region.get_branches()
-                logging.info(f"\n")
+                logging.info("\n")
         logging.info(f"Completed branches refresh at: {datetime.datetime.now()}\n\n")
 
 class Rest:
