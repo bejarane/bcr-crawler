@@ -73,7 +73,7 @@ class Region:
         self.branches = []
 
     def get_branches(self):
-        logging.info(f"Downloading branches for topic {self.topic_id} in region {self.name}...")
+        logging.info(f"Downloading branches for topic {self.topic_id}...")
         post_data = {"topicoId": self.topic_id, "provinciaId": self.id}
         url = self.config.BASE_URL + self.config.BRANCH_PATH
         response = Rest.post_uri(_uri= url, _data= post_data)
@@ -133,12 +133,10 @@ class Topic:
         logging.debug("\n\n")
 
     def generate_regions(self):
-        logging.info(f"Generating regions for topic {self.name}...")
+        logging.info(f"Generating regions for topic {self.name}...\n")
         for region in self.config.REGIONS:
             generated_region = Region(region[0], region[1], self.id, self.config)
-            self.regions.append(generated_region)
-        logging.debug("Completed regions")
-        logging.debug("\n\n")     
+            self.regions.append(generated_region) 
     
 
 class BCRScrapper:
@@ -179,7 +177,9 @@ class BCRScrapper:
         for topic in self.topics:
             topic.generate_regions()
             for region in topic.regions:
+                logging.info(f"Downloading branches for region {region.name}...")
                 region.get_branches()
+                logging.info(f"\n")
         logging.info(f"Completed branches refresh at: {datetime.datetime.now()}\n\n")
 
 class Rest:
